@@ -39,6 +39,11 @@ const showGrid = () => {
 showGrid();
 
 // movement on map - where is Player on the map(coordinates), where are the borders, where Player already been(variable visited)
-// start - left bottom
-// end - right up
+
+const moveUp = () => {
+  playerY -= 1;
+  console.log(playerY);
+};
+
+moveUp();
 // inquirer for the users input
