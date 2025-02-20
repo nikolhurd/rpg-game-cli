@@ -40,7 +40,7 @@ const showGrid = () => {
 
 // bordercheck()
 
-const borderCheckUp = (newY, newX) => {
+const borderCheck = (newY, newX) => {
   return newY >= 0 && newY < 6 && newX >= 0 && newX < 5;
 };
 
@@ -70,12 +70,46 @@ const moveLeft = () => {
   grid[playerY][playerX] = 1; // where player is after moving left
 };
 
-const processMove = () => {
-  const newY = playerY - 1;
-  if (borderCheckUp(newY, playerX)) {
-    moveUp();
-  } else {
-    cannotMove();
+const processMove = (direction) => {
+  switch (direction) {
+    case "up":
+      const newYUp = playerY - 1;
+      if (borderCheck(newYUp, playerX)) {
+        moveUp();
+      } else {
+        cannotMove();
+      }
+      break;
+
+    case "down":
+      const newYDown = playerY + 1;
+      if (borderCheck(newYDown, playerX)) {
+        moveDown();
+      } else {
+        cannotMove();
+      }
+      break;
+
+    case "right":
+      const newXRight = playerX + 1;
+      if (borderCheck(playerY, newXRight)) {
+        moveRight();
+      } else {
+        cannotMove();
+      }
+      break;
+
+    case "left":
+      const newXLeft = playerX - 1;
+      if (borderCheck(playerY, newXLeft)) {
+        moveLeft();
+      } else {
+        cannotMove();
+      }
+      break;
+
+    default:
+      break;
   }
 };
 
@@ -83,7 +117,15 @@ const cannotMove = () => {
   console.log("Cannot move, you are at the border");
 };
 
-processMove();
-processMove();
+processMove("up");
+
 showGrid();
+console.log("___________");
+processMove("down");
+showGrid();
+console.log("___________");
+processMove("down");
+processMove("right");
+showGrid();
+console.log("___________");
 // inquirer for the users input
