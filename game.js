@@ -36,14 +36,36 @@ const showGrid = () => {
   });
 };
 
-showGrid();
+// showGrid();
 
-// movement on map - where is Player on the map(coordinates), where are the borders, where Player already been(variable visited)
+// bordercheck()
 
-const moveUp = () => {
-  playerY -= 1;
-  console.log(playerY);
+const borderCheckUp = (newY, newX) => {
+  return newY >= 0 && newY < 6 && newX >= 0 && newX < 5;
 };
 
-moveUp();
+// movement on map - where is Player on the map(coordinates) where Player already been(variable visited)
+
+const moveUp = () => {
+  grid[playerY][playerX] = 3;
+  playerY -= 1;
+  grid[playerY][playerX] = 1;
+};
+const processMove = () => {
+  const newY = playerY - 1;
+  if (borderCheckUp(newY, playerX)) {
+    moveUp();
+  } else {
+    cannotMove();
+  }
+};
+
+const cannotMove = () => {
+  console.log("Cannot move, you are at the border");
+};
+
+processMove();
+console.log(playerY);
+showGrid();
+
 // inquirer for the users input
