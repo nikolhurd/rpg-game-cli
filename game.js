@@ -58,7 +58,7 @@ const moveLeft = () => {
 
 const processMove = (direction) => {
   switch (direction) {
-    case "up":
+    case "Up":
       const newYUp = playerY - 1;
       if (borderCheck(newYUp, playerX)) {
         moveUp();
@@ -67,7 +67,7 @@ const processMove = (direction) => {
       }
       break;
 
-    case "down":
+    case "Down":
       const newYDown = playerY + 1;
       if (borderCheck(newYDown, playerX)) {
         moveDown();
@@ -76,7 +76,7 @@ const processMove = (direction) => {
       }
       break;
 
-    case "right":
+    case "Right":
       const newXRight = playerX + 1;
       if (borderCheck(playerY, newXRight)) {
         moveRight();
@@ -85,7 +85,7 @@ const processMove = (direction) => {
       }
       break;
 
-    case "left":
+    case "Left":
       const newXLeft = playerX - 1;
       if (borderCheck(playerY, newXLeft)) {
         moveLeft();
@@ -121,7 +121,7 @@ const showPlayerStats = () => {
 };
 
 const handleAfterMove = () => {
-  if (randomPrecentGenerator() < 60) {
+  if (randomPrecentGenerator() < 30) {
     const item = createItem();
     console.log("🪄 You found a Magic Wand✨");
 
@@ -136,28 +136,8 @@ const handleAfterMove = () => {
   }
 };
 
-handleAfterMove();
-handleAfterMove();
-handleAfterMove();
-handleAfterMove();
-
 const cannotMove = () => {
   console.log("Cannot move, you are at the border");
 };
 
-// processMove("up");
-
-// showGrid();
-// console.log("___________");
-// processMove("down");
-// showGrid();
-// console.log("___________");
-// processMove("right");
-// showGrid();
-// console.log("___________");
-// processMove("right");
-// processMove("right");
-// processMove("right");
-// processMove("right");
-// showGrid();
-// inquirer for the users input
+export { processMove };
