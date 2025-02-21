@@ -1,15 +1,4 @@
-// main class Entity with hp, ap, dp, sprite
-
-// CombatEntity extends Entity
-// fight()
-
-// Player extends CombatEntity
-// move()
-
-// Enemy extends CombatEntity
-
-// Item extends Entity
-// applyToPlayer()
+import { Entity, Player, Enemy, Item } from "./entities.js";
 
 // function createGrid(height, width) - array
 let grid = [];
@@ -35,10 +24,6 @@ const showGrid = () => {
     console.log(row);
   });
 };
-
-// showGrid();
-
-// bordercheck()
 
 const borderCheck = (newY, newX) => {
   return newY >= 0 && newY < 6 && newX >= 0 && newX < 5;
@@ -124,8 +109,12 @@ console.log("___________");
 processMove("down");
 showGrid();
 console.log("___________");
-processMove("down");
 processMove("right");
 showGrid();
 console.log("___________");
+processMove("right");
+processMove("right");
+processMove("right");
+processMove("right");
+showGrid();
 // inquirer for the users input
