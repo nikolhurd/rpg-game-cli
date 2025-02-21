@@ -1,4 +1,5 @@
 import { Entity, Player, Enemy, Item } from "./entities.js";
+const testPlayer = new Player(20, 3, 6);
 
 // function createGrid(height, width) - array
 let grid = [];
@@ -98,23 +99,65 @@ const processMove = (direction) => {
   }
 };
 
+const randomPrecentGenerator = () => {
+  return Math.random() * 100;
+};
+
+const randomStatGenerator = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + 1;
+};
+
+const createItem = () => {
+  const itemHP = randomStatGenerator(10, 20);
+  const itemAP = randomStatGenerator(1, 5);
+  const itemDP = randomStatGenerator(1, 5);
+
+  return new Item(itemHP, itemAP, itemDP);
+};
+const showPlayerStats = () => {
+  console.log(
+    `Stats of Player: HP: ${testPlayer.hp} AP: ${testPlayer.ap} DP: ${testPlayer.dp}`
+  );
+};
+
+const handleAfterMove = () => {
+  if (randomPrecentGenerator() < 60) {
+    const item = createItem();
+    console.log("🪄 You found a Magic Wand✨");
+
+    console.log(
+      `Stats of Magic Wand: HP: ${item.hp} AP: ${item.ap} DP: ${item.dp}`
+    );
+    console.log("______________________________");
+    item.applyToPlayer(testPlayer);
+    showPlayerStats();
+  } else {
+    console.log("Item not found");
+  }
+};
+
+handleAfterMove();
+handleAfterMove();
+handleAfterMove();
+handleAfterMove();
+
 const cannotMove = () => {
   console.log("Cannot move, you are at the border");
 };
 
-processMove("up");
+// processMove("up");
 
-showGrid();
-console.log("___________");
-processMove("down");
-showGrid();
-console.log("___________");
-processMove("right");
-showGrid();
-console.log("___________");
-processMove("right");
-processMove("right");
-processMove("right");
-processMove("right");
-showGrid();
+// showGrid();
+// console.log("___________");
+// processMove("down");
+// showGrid();
+// console.log("___________");
+// processMove("right");
+// showGrid();
+// console.log("___________");
+// processMove("right");
+// processMove("right");
+// processMove("right");
+// processMove("right");
+// showGrid();
 // inquirer for the users input

@@ -39,7 +39,21 @@ class Enemy extends CombatEntity {
 }
 
 class Item extends Entity {
-  // applyToPlayer()
+  constructor(hp, ap, dp) {
+    super(hp, ap, dp);
+  }
+  applyToPlayer(player) {
+    console.log("Before applying item:");
+    console.log("Player stats:", player.hp, player.ap, player.dp);
+    console.log("Item stats:", this.hp, this.ap, this.dp);
+
+    player.hp += this.hp;
+    player.ap += this.ap;
+    player.dp += this.dp;
+
+    console.log("After applying item:");
+    console.log("Player stats:", player.hp, player.ap, player.dp);
+  }
 }
 
 export { Entity, Player, Enemy, Item };
