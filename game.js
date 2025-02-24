@@ -1,5 +1,8 @@
 import { Entity, Player, Enemy, Item } from "./entities.js";
+import { promptUser } from "./userInput.js";
 const testPlayer = new Player(20, 3, 6);
+const testEnemy = new Enemy(30, 2, 5);
+testPlayer.fight(testEnemy);
 
 // function createGrid(height, width) - array
 let grid = [];
@@ -114,17 +117,24 @@ const createItem = () => {
 
   return new Item(itemHP, itemAP, itemDP);
 };
+
+const createEnemy = () => {
+  const enemyHP = randomStatGenerator(10, 20);
+  const enemyAP = randomStatGenerator(1, 5);
+  const enemyDP = randomStatGenerator(1, 5);
+
+  return new Enemy(enemyHP, enemyAP, enemyDP);
+};
 const showPlayerStats = () => {
   console.log(
     `Stats of Player: HP: ${testPlayer.hp} AP: ${testPlayer.ap} DP: ${testPlayer.dp}`
   );
 };
 
-const handleAfterMove = () => {
+const generatingItems = () => {
   if (randomPrecentGenerator() < 30) {
     const item = createItem();
     console.log("🪄 You found a Magic Wand✨");
-
     console.log(
       `Stats of Magic Wand: HP: ${item.hp} AP: ${item.ap} DP: ${item.dp}`
     );
@@ -134,6 +144,27 @@ const handleAfterMove = () => {
   } else {
     console.log("Item not found");
   }
+};
+
+const generatingEnemy = () => {
+  if (randomPrecentGenerator() < 20) {
+    const enemy = createEnemy();
+    console.log("🧙You encountered an Evil Wizard✨");
+    console.log(
+      `Stats of Evil Wizard: HP: ${enemy.hp} AP: ${enemy.ap} DP: ${enemy.dp}`
+    );
+    testPlayer.fight(enemy);
+    console.log("______________________________");
+    showPlayerStats();
+  } else {
+    console.log("No enemy");
+  }
+};
+
+const handleAfterMove = () => {
+  generatingItems();
+  generatingEnemy();
+  promptUser();
 };
 
 const cannotMove = () => {

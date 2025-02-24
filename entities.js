@@ -15,22 +15,36 @@ class CombatEntity extends Entity {
   fight(oponent) {
     while (oponent.hp > 0 && this.hp > 0) {
       let damageToOponent = this.ap - oponent.dp;
-      console.log("Oponent HP:", oponent.hp, "This HP:", this.hp);
       let damageToThis = oponent.ap - this.dp;
-
+      if (damageToOponent < 1) {
+        damageToOponent = 1;
+      }
+      if (damageToThis < 1) {
+        damageToThis = 1;
+      }
       oponent.hp -= damageToOponent;
       this.hp -= damageToThis;
+      console.log(oponent.hp, "Oponent HP");
+      console.log(this.hp, "This HP");
     }
-    console.log("Oponent health", oponent.hp);
-    console.log("This health", this.hp);
+    return this.hp > 0;
   }
 }
 
 class Player extends CombatEntity {
   constructor(hp, ap, dp) {
     super(hp, ap, dp);
-    // move()
   }
+  fight(oponent) {
+    const won = super.fight(oponent);
+    if (won) {
+      console.log("You defeated the Evil Wizard!");
+    } else {
+      console.log("Game Over - You were defeated!");
+    }
+    return won;
+  }
+  // move()
 }
 class Enemy extends CombatEntity {
   constructor(hp, ap, dp) {
