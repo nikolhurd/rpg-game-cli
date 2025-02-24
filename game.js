@@ -1,8 +1,6 @@
 import { Entity, Player, Enemy, Item } from "./entities.js";
 import { promptUser } from "./userInput.js";
 const testPlayer = new Player(20, 3, 6);
-const testEnemy = new Enemy(30, 2, 5);
-testPlayer.fight(testEnemy);
 
 // function createGrid(height, width) - array
 let grid = [];
@@ -164,25 +162,33 @@ const generatingEnemy = () => {
     console.log(
       `Stats of Evil Wizard: HP: ${enemy.hp} AP: ${enemy.ap} DP: ${enemy.dp}`
     );
-    testPlayer.fight(enemy);
+    let fightResult = testPlayer.fight(enemy);
     console.log("______________________________");
     showPlayerStats();
+    if (!fightResult) return true;
   } else {
     console.log("No enemy");
   }
 };
 
 const handleAfterMove = () => {
+  showGrid();
   let result = winCheck();
   if (result === false) {
     generatingItems();
-    generatingEnemy();
-    promptUser();
+    let fightResult = generatingEnemy();
+    if (fightResult) return;
+    else {
+      promptUser();
+    }
   }
 };
 
 const cannotMove = () => {
   console.log("Cannot move, you are at the border");
 };
+
+showGrid();
+promptUser();
 
 export { processMove };

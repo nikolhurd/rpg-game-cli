@@ -24,8 +24,6 @@ class CombatEntity extends Entity {
       }
       oponent.hp -= damageToOponent;
       this.hp -= damageToThis;
-      console.log(oponent.hp, "Oponent HP");
-      console.log(this.hp, "This HP");
     }
     return this.hp > 0;
   }
@@ -44,7 +42,6 @@ class Player extends CombatEntity {
     }
     return won;
   }
-  // move()
 }
 class Enemy extends CombatEntity {
   constructor(hp, ap, dp) {
@@ -57,16 +54,9 @@ class Item extends Entity {
     super(hp, ap, dp);
   }
   applyToPlayer(player) {
-    console.log("Before applying item:");
-    console.log("Player stats:", player.hp, player.ap, player.dp);
-    console.log("Item stats:", this.hp, this.ap, this.dp);
-
     player.hp += this.hp;
     player.ap += this.ap;
     player.dp += this.dp;
-
-    console.log("After applying item:");
-    console.log("Player stats:", player.hp, player.ap, player.dp);
   }
 }
 
