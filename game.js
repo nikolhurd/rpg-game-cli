@@ -23,6 +23,13 @@ for (let i = 0; i < 6; i++) {
 grid[playerY][playerX] = 1;
 grid[goalY][goalX] = 2;
 
+const winCheck = () => {
+  if (playerY === 0 && playerX === 4) {
+    console.log("🥳Congrats! You reached the end of the game!🎉");
+  }
+  return playerY === 0 && playerX === 4;
+};
+
 const showGrid = () => {
   grid.forEach((row) => {
     console.log(row);
@@ -65,6 +72,7 @@ const processMove = (direction) => {
       const newYUp = playerY - 1;
       if (borderCheck(newYUp, playerX)) {
         moveUp();
+        handleAfterMove();
       } else {
         cannotMove();
       }
@@ -74,6 +82,7 @@ const processMove = (direction) => {
       const newYDown = playerY + 1;
       if (borderCheck(newYDown, playerX)) {
         moveDown();
+        handleAfterMove();
       } else {
         cannotMove();
       }
@@ -83,6 +92,7 @@ const processMove = (direction) => {
       const newXRight = playerX + 1;
       if (borderCheck(playerY, newXRight)) {
         moveRight();
+        handleAfterMove();
       } else {
         cannotMove();
       }
@@ -92,6 +102,7 @@ const processMove = (direction) => {
       const newXLeft = playerX - 1;
       if (borderCheck(playerY, newXLeft)) {
         moveLeft();
+        handleAfterMove();
       } else {
         cannotMove();
       }
@@ -162,9 +173,12 @@ const generatingEnemy = () => {
 };
 
 const handleAfterMove = () => {
-  generatingItems();
-  generatingEnemy();
-  promptUser();
+  let result = winCheck();
+  if (result === false) {
+    generatingItems();
+    generatingEnemy();
+    promptUser();
+  }
 };
 
 const cannotMove = () => {
