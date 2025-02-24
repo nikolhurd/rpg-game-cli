@@ -29,9 +29,47 @@ const winCheck = () => {
 };
 
 const showGrid = () => {
-  grid.forEach((row) => {
-    console.log(row);
-  });
+  for (let i = 0; i < grid.length; i++) {
+    let row = grid[i];
+    let displayRow = "";
+
+    for (let j = 0; j < row.length; j++) {
+      displayRow += getEmoji(row[j], i, j) + " ";
+    }
+    console.log(displayRow);
+  }
+};
+
+let emojiMap = {};
+const emptySpaceEmoji = ["🍀", "🌳", "🌵", "🌴", "🌿"];
+
+const getRandomEmoji = () => {
+  const randomIndex = Math.floor(Math.random() * emptySpaceEmoji.length);
+  return emptySpaceEmoji[randomIndex];
+};
+const getEmoji = (number, row, col) => {
+  switch (number) {
+    case 1:
+      return "🧚";
+
+    case 2:
+      return "🏆";
+
+    case 3:
+      return "🌟";
+
+    case 0:
+      const key = row + "," + col;
+      if (emojiMap[key]) {
+        return emojiMap[key];
+      } else {
+        emojiMap[key] = getRandomEmoji();
+        return emojiMap[key];
+      }
+
+    default:
+      break;
+  }
 };
 
 const borderCheck = (newY, newX) => {
@@ -186,6 +224,7 @@ const handleAfterMove = () => {
 
 const cannotMove = () => {
   console.log("Cannot move, you are at the border");
+  promptUser();
 };
 
 showGrid();
