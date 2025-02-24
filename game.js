@@ -1,82 +1,22 @@
-import { Entity, Player, Enemy, Item } from "./entities.js";
+import { Player } from "./entities.js";
 import { promptUser } from "./userInput.js";
-const testPlayer = new Player(20, 3, 6);
+import { generatingEnemy, generatingItems } from "./events.js";
+import { createGrid, showGrid, borderCheck, grid } from "./grid.js";
 
-// function createGrid(height, width) - array
-let grid = [];
+const testPlayer = new Player(20, 3, 6);
 let playerY = 5; // row of starting position of player
 let playerX = 0; // column of starting position of player
 let goalY = 0;
 let goalX = 4;
 
-for (let i = 0; i < 6; i++) {
-  let row = [];
-
-  for (let z = 0; z < 5; z++) {
-    row.push(0);
-  }
-  grid.push(row);
-}
-
-grid[playerY][playerX] = 1;
-grid[goalY][goalX] = 2;
+createGrid(6, 5, playerY, playerX, goalY, goalX);
 
 const winCheck = () => {
-  if (playerY === 0 && playerX === 4) {
+  if (playerY === goalY && playerX === goalX) {
     console.log("🥳Congrats! You reached the end of the game!🎉");
   }
-  return playerY === 0 && playerX === 4;
+  return playerY === goalY && playerX === goalX;
 };
-
-const showGrid = () => {
-  for (let i = 0; i < grid.length; i++) {
-    let row = grid[i];
-    let displayRow = "";
-
-    for (let j = 0; j < row.length; j++) {
-      displayRow += getEmoji(row[j], i, j) + " ";
-    }
-    console.log(displayRow);
-  }
-};
-
-let emojiMap = {};
-const emptySpaceEmoji = ["🍀", "🌳", "🌵", "🌴", "🌿"];
-
-const getRandomEmoji = () => {
-  const randomIndex = Math.floor(Math.random() * emptySpaceEmoji.length);
-  return emptySpaceEmoji[randomIndex];
-};
-const getEmoji = (number, row, col) => {
-  switch (number) {
-    case 1:
-      return "🧚";
-
-    case 2:
-      return "🏆";
-
-    case 3:
-      return "🌟";
-
-    case 0:
-      const key = row + "," + col;
-      if (emojiMap[key]) {
-        return emojiMap[key];
-      } else {
-        emojiMap[key] = getRandomEmoji();
-        return emojiMap[key];
-      }
-
-    default:
-      break;
-  }
-};
-
-const borderCheck = (newY, newX) => {
-  return newY >= 0 && newY < 6 && newX >= 0 && newX < 5;
-};
-
-// movement on map - where is Player on the map(coordinates) where Player already been(variable visited)
 
 const moveUp = () => {
   grid[playerY][playerX] = 3; // where player currently is
@@ -149,72 +89,12 @@ const processMove = (direction) => {
   }
 };
 
-const randomPrecentGenerator = () => {
-  return Math.random() * 100;
-};
-
-const randomStatGenerator = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1)) + 1;
-};
-
-const createItem = () => {
-  const itemHP = randomStatGenerator(10, 20);
-  const itemAP = randomStatGenerator(1, 5);
-  const itemDP = randomStatGenerator(1, 5);
-
-  return new Item(itemHP, itemAP, itemDP);
-};
-
-const createEnemy = () => {
-  const enemyHP = randomStatGenerator(10, 20);
-  const enemyAP = randomStatGenerator(1, 5);
-  const enemyDP = randomStatGenerator(1, 5);
-
-  return new Enemy(enemyHP, enemyAP, enemyDP);
-};
-const showPlayerStats = () => {
-  console.log(
-    `Stats of Player: HP: ${testPlayer.hp} AP: ${testPlayer.ap} DP: ${testPlayer.dp}`
-  );
-};
-
-const generatingItems = () => {
-  if (randomPrecentGenerator() < 30) {
-    const item = createItem();
-    console.log("🪄 You found a Magic Wand✨");
-    console.log(
-      `Stats of Magic Wand: HP: ${item.hp} AP: ${item.ap} DP: ${item.dp}`
-    );
-    console.log("______________________________");
-    item.applyToPlayer(testPlayer);
-    showPlayerStats();
-  } else {
-    console.log("Item not found");
-  }
-};
-
-const generatingEnemy = () => {
-  if (randomPrecentGenerator() < 20) {
-    const enemy = createEnemy();
-    console.log("🧙You encountered an Evil Wizard✨");
-    console.log(
-      `Stats of Evil Wizard: HP: ${enemy.hp} AP: ${enemy.ap} DP: ${enemy.dp}`
-    );
-    let fightResult = testPlayer.fight(enemy);
-    console.log("______________________________");
-    showPlayerStats();
-    if (!fightResult) return true;
-  } else {
-    console.log("No enemy");
-  }
-};
-
 const handleAfterMove = () => {
   showGrid();
   let result = winCheck();
   if (result === false) {
-    generatingItems();
-    let fightResult = generatingEnemy();
+    generatingItems(testPlayer);
+    let fightResult = generatingEnemy(testPlayer);
     if (fightResult) return;
     else {
       promptUser();
@@ -227,7 +107,12 @@ const cannotMove = () => {
   promptUser();
 };
 
-showGrid();
-promptUser();
+// Start game
+const startGame = () => {
+  showGrid();
+  promptUser();
+};
+
+startGame();
 
 export { processMove };
